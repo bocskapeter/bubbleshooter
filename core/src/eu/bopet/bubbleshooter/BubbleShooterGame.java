@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g3d.Environment;
 import com.badlogic.gdx.graphics.g3d.ModelBatch;
 import com.badlogic.gdx.graphics.g3d.ModelInstance;
 import com.badlogic.gdx.graphics.g3d.utils.CameraInputController;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
 public class BubbleShooterGame extends ApplicationAdapter {
@@ -24,6 +25,8 @@ public class BubbleShooterGame extends ApplicationAdapter {
     private BitmapFont font;
     private SpriteBatch batch;
 
+    private final Vector3 camPosition = new Vector3(0,15,-45f);
+
     @Override
     public void create() {
 
@@ -35,7 +38,7 @@ public class BubbleShooterGame extends ApplicationAdapter {
 
         modelBatch = new ModelBatch();
         cam = new PerspectiveCamera(50, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(0, 15, -45f);
+        cam.position.set(camPosition);
         cam.up.set(0, 1, 0);
         cam.lookAt(0, 0, 0);
 
@@ -52,16 +55,30 @@ public class BubbleShooterGame extends ApplicationAdapter {
 
         instances.add(room.getModelInstance());
         instances.addAll(room.getBubbles());
-
     }
 
     @Override
     public void render() {
         Gdx.gl.glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
+
+        cam.position.set(camPosition);
+
+        cam.up.set(0, 1, 0);
+
+        if (cam.direction.y>0) cam.direction.y = 0;
+        if (cam.direction.y<-0.35f) cam.direction.y = -0.35f;
+
+        if (cam.direction.x>0.15f) cam.direction.x = 0.15f;
+        if (cam.direction.x<-0.15f) cam.direction.x = -0.15f;
+
+        if (cam.direction.z > 0.51f) cam.direction.z =0.51f;
+        if (cam.direction.z < 0.49f) cam.direction.z =0.49f;
+
         modelBatch.begin(cam);
         modelBatch.render(instances, environment);
         modelBatch.end();
+
         camController.update();
 
         batch.begin();

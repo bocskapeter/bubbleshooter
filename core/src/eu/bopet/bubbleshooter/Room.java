@@ -114,15 +114,6 @@ public class Room {
     private void setEnvironment() {
         this.environment.set(new ColorAttribute(ColorAttribute.AmbientLight, 0.5f, 0.5f, 0.5f, 1f));
         this.environment.add(new DirectionalLight().set(0.9f, 0.9f, 0.9f, -1f, -0.8f, -0.2f));
-        PointLight pointLight = new PointLight();
-        pointLight.set(Color.WHITE, pointB, 100);
-        environment.add(pointLight);
-        pointLight.set(Color.WHITE, pointC, 100);
-        environment.add(pointLight);
-        pointLight.set(Color.WHITE, pointF, 100);
-        environment.add(pointLight);
-        pointLight.set(Color.WHITE, pointG, 100);
-        environment.add(pointLight);
     }
 
     private Color getRandomColor() {
